@@ -34,7 +34,9 @@
     
 
     <!--Crea un jar del que hi ha dins de ${build}  anomenant-lo ElMeuProjecte-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/ElMeuProjecte-${DSTAMP}.jar" basedir="${build}">
+    <property name="nom_jar" value="${dist}/ElMeuProjecte-${DSTAMP}.jar"/>
+    
+    <jar jarfile="${nom_jar}" basedir="${build}">
        <manifest>
          <attribute name="Main-Class" value="part1.chapter01.HelloWorld"/>
          <attribute name="Class-Path" value="lib/itextpdf-5.1.2.jar lib/itext-xtra-5.1.2.jar"/>
@@ -48,4 +50,21 @@
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
   </target>
+  
+  <target name="run" depends="dist">
+      <java jar="${nom_jar}" fork="true"/>  
+  </target>
+  
+  <target name="superjar" depends="dist">
+        <jar jarfile="${dist}/SuperJar.jar"  basedir="${build}">
+                <zipfileset excludes="META-INF/*" src="lib/itextpdf-5.1.2.jar"/>
+                <zipfileset excludes="META-INF/*" src="lib/itext-xtra-5.1.2.jar"/>
+                <manifest>
+                 <attribute name="Main-Class" value="part1.chapter01.HelloWorld"/>
+               </manifest>
+        </jar>
+  </target>  
+
+  
+  
 </project>
