@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="ExcelWindReports" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ExcelWindReports.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!-- =========================================================== -->
+    <!-- Aquestes línies s'inclouen per poder fer servir la tasca <if> i
+      <foreach> -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+    <!-- =========================================================== -->
+    <target name="-post-jar">
+        <!-- Exercici 4 -->
+        <!-- a. Copiï a la carpeta dist la carpeta data. -->
+        <copy todir="${dist.dir}/data">
+            <fileset dir="data"></fileset>
+        </copy>
+        <!-- b. També crearà dins de dist una carpeta buida 
+        anomenada output. -->
+        <mkdir dir="${dist.dir}/output"></mkdir>
+        
+        <!-- c. Esborrar la carpeta dist/lib (i tots els seus 
+        continguts), al fer el pas anterior ja no és necessària. -->
+        <delete dir="${dist.dir}/lib"></delete>
+        
+        
+        <!-- d. Fusionarà totes les llibreries de lib dins del
+        jar, de forma que només haguem de distribuir un únic 
+        jar als clients-->
+        <jar destfile="${dist.jar}" update="true">
+            <zipfileset includes="**/*.class" src="${reference.SurfWebLibrary.jar}"></zipfileset>
+            <zipgroupfileset dir="lib" includes="*.jar"></zipgroupfileset>
+        </jar>
+      
+    </target>
+ 
+ <!-- Exercici 6
+    Creeu una tasca Ant personalitzada amb el nom “GeneraInforme” que farà les següents tasques -->
+    <target name="GeneraInforme"
+      description="Ex6. Genera informe"
+                    depends="compile"  >
+        <!--        a. Compilarà el projecte -->
+        
+        <!--antcall target="compile"></antcall-->
+        <!-- b. Demanarà a l’usuari que triï entre una de les dues opcions següents:-->
+            <!-- 1. Generar un informe d’un arxiu-->
+            <!-- 2. Generar informes del FTP-->
+        <property name="opcio.1" value="1.-GENERAR INFORME D'ARXIU"></property>    
+        <property name="opcio.2" value="2.-GENERAR INFORME FTP"></property>    
+        <input message="Seleccioni una de les següents opcions:" 
+               validargs="${opcio.1},${opcio.2}"
+               addproperty="opcioSeleccionada">
+        </input>        
+        <!-- 3. Si es tria “Generar un informe d’un arxiu”, farem:-->
+            
+        <if>
+            <equals arg1="${opcioSeleccionada}" arg2="${opcio.1}"></equals>
+            <then>
+                <!-- 1. Demanarà a l’usuari que escrigui la ruta relativa de l’arxiu que cal utilitzar.-->    
+                <input message="Introdueixi la ruta relativa a l'arxiu de dades:"
+                    addproperty="rutaArxiuDades"
+                    defaultvalue="data/euskadi.txt"
+                >
+                </input>
+                
+                <!-- 2. Useu la condició <available> per verificat si l’arxiu del punt 1 existeix . 
+                Si no existeix l’arxiu es mostra el missatge “arxiu no existent” i s’acaba l’script. 
+                Altrament continuem.-->
+                <available file="${rutaArxiuDades}" property="arxiu.existent"></available>
+                <!-- si l'usuari escriu un arxiu que existeix, la variable arxiu.existent val true
+                SI NO EXISTEIX, la variable esta NO DEFINIDA.-->
+                <fail message="Arxiu de dades no existent">
+                    <condition>
+                        <!-- la condició estableix que l'script falla si no està
+                                definida la propietat arxiu.existent -->
+                        <not>
+                            <isset property="arxiu.existent"></isset>
+                        </not>
+                    </condition>
+                </fail>
+                <echo message="Arxiu trobat"></echo>
+                
+                <!-- 3. A continuació s’executarà l’aplicació. La sortida serà sempre a la carpeta
+                output\[nom_arxiu].xlsx. Per exemple, si l’usuari escriu “data\catalunya.txt” (al punt1) la
+                sortida es deixarà a “output\catalunya.xlsx”. Useu <basename> -->
+                
+                
+                <basename file="${rutaArxiuDades}" property="nom.arxiu" suffix=".txt"></basename>
+                <echo message="El nom és: ${nom.arxiu}"></echo>
+                <java
+                    jar="${dist.jar}"
+                    fork="true"
+                >
+                    <arg value="${rutaArxiuDades}"></arg>
+                    <arg value="output\${nom.arxiu}.xlsx"></arg>
+                </java>
+            </then>
+            <else>
+                <echo message="Informe per FTP"></echo>
+                <!--4. Si es tria “Generar informes del FTP”, farem:-->
+                    <!-- 1. Useu l’arxiu de configuració a la ruta etc/config.ftp per carregar els paràmetres de connexió
+                    FTP. -->
+                    <property file="etc/config.ftp"></property>
+                    <!--
+                    FTP.IP=10.132.0.0
+                    FTP.USER=alumne
+                    FTP.PASSWORD=alumne
+                    -->
+                    
+                    <!-- 2. Creeu la carpeta downloads.-->
+                    <mkdir dir="downloads"></mkdir>
+                    
+                    <!-- 3. Amb els paràmetres de l’apartat anterior, connecteu-vos via FTP a la carpeta remota
+                    TAULER\M05\ED_UF1_EXA i descarregueu-vos a la vostra carpeta local downloads tots
+                    els arxius *.txt. ( useu remoteDir adequadament ... )-->
+                    <ftp action="get"
+                    server="${FTP.IP}"
+                    userid="${FTP.USER}"
+                    password="${FTP.PASSWORD}"
+                    binary="yes"
+                    passive="yes"
+                    remoteDir="TAULER\M05\ED_UF1_EXA"
+                    >
+                        <fileset dir="downloads">
+                            <include name="**/*.txt"/>
+                        </fileset>
+                    </ftp>
+                    
+                    <!-- 4. Cridarem l’aplicació per tots i cadascun dels arxius existent a la carpeta downloads Useu
+                    <foreach>. La sortida es deixarà a 
+                    downloads\output-->                    
+                    <mkdir dir="downloads\output"></mkdir>
+                    <!--                                         /inheritall="true"- això es posa per forçar que les propietats es passin a la target invocada -->  
+                    <foreach target="processaArxiu" param="arxiu" inheritall="true">
+                        <fileset dir="downloads">
+                            <include name="**/*.txt"></include>
+                        </fileset>
+                    </foreach>
+            </else>
+        </if>
+    </target>
+    
+    <!-- target cridat internament pel <foreach> -->
+    <target name="processaArxiu">
+        <echo message=" (*) ${arxiu}"></echo>
+        <!-- executem l'aplicació sobre ${arxiu} -->
+        
+                <basename file="${arxiu}" property="nom.arxiu" suffix=".txt"></basename>
+                <echo message="El nom és: ${nom.arxiu}"></echo>
+                <java
+                    jar="${dist.jar}"
+                    fork="true"
+                >
+                    <arg value="${arxiu}"></arg>
+                    <arg value="downloads\output\${nom.arxiu}.xlsx"></arg>
+                </java>        
+                
+                        
+    </target>
+</project>
