@@ -1,4 +1,3 @@
-
 package aparcalocomopuedas;
 
 import org.junit.Test;
@@ -9,171 +8,220 @@ import static org.junit.Assert.*;
  * @author Usuari
  */
 public class ParkingTest {
-    
+
     public ParkingTest() {
     }
 
     @Test
-    public void testBuscaLlocLliure_ERROR() {
+    public void testBuscaLlocLliure_ERRORS() {
+        
         assertEquals(
+                "client amb codi negatiu",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(-1, 300, 
-                       new int[]{0,0,0}, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    -1, //*
+                    400, 
+                    new int[]{0,0,0}, 
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
+        );
+        //-------------------------------------------------
+        assertEquals(
+                "longitud cotxe: zero",
+                Parking.ERROR,
+                Parking.buscaLlocLliure(                
+                    0, 
+                    0, //*
+                    new int[]{0,0,0}, 
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
+        );
+        assertEquals(
+                "longitud cotxe: negatiu",
+                Parking.ERROR,
+                Parking.buscaLlocLliure(                
+                    0, 
+                    -1, //*
+                    new int[]{0,0,0}, 
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
         );
         //--------------------------------------------------
-        assertEquals("mida zero",
+         assertEquals(
+                "taula codis client: negatiu",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 0, 
-                       new int[]{0,0,0}, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0,0,-1}, //*
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
         );
-        
-        assertEquals("mida negativa",
+         assertEquals(
+                "taula codis client: taula buida",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, -1, 
-                       new int[]{0,0,0}, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{}, //*
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
         );
-        //-------------------------------
-        assertEquals("p.taula socis: buida",
+         assertEquals(
+                "taula codis client: taula nul·la",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{}, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    null, //*
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
         );
-        assertEquals("p.taula socis: buida, resta de taules buides",
+         assertEquals(
+                "taula codis client: taula diferent mida",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{}, 
-                       new int[]{}, 
-                       new boolean[]{})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0, 0}, //*
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false})
         );
-        //-----------------------------
-        assertEquals("p.taula socis: null",
+         //-----------------------------------------------
+         assertEquals(
+                "taula de longituds: zero",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       null, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,0}, //*
+                    new boolean[]{false, false,false})
         );
-        assertEquals("p.taula socis: null, la resta de taules null també.",
+         assertEquals(
+                "taula de longituds: negatiu",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       null, 
-                       null, 
-                       null)
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,-1}, //*
+                    new boolean[]{false, false,false})
         );
-        assertEquals("p.taula socis: soci negatiu",
+         assertEquals(
+                "taula de longituds: longitud diferent",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,-1}, 
-                       new int[]{400,400,400}, 
-                       new boolean[]{false, false,false})
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,500,500}, //*
+                    new boolean[]{false, false,false})
         );
-        assertEquals("p.taula socis: mida de taula diferent",
+         assertEquals(
+                "taula de longituds: taula buida",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0,0}, //4 
-                       new int[]{400,400,400},// 3 
-                       new boolean[]{false, false,false}) //3
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{}, //*
+                    new boolean[]{false, false,false})
         );
-        //-----------------------------
-        assertEquals("p.taula mides:null",
+         assertEquals(
+                "taula de longituds: taula null",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0}, //3 
-                       null,// 3 
-                       new boolean[]{false, false,false}) //3
-        );
-        assertEquals("p.taula mides:buit",
-                Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{}, //3 
-                       new boolean[]{false, false,false}) //3
-        );
-        assertEquals("p.taula mides:zero",
-                Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,0},
-                       new boolean[]{false, false,false}) //3
-        );
-        assertEquals("p.taula mides:negatius",
-                Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,-1},
-                       new boolean[]{false, false,false}) //3
-        );
-        assertEquals("p.taula mides:longitud diferent",
-                Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,400,400}, //4
-                       new boolean[]{false, false,false}) //3
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    null, //*
+                    new boolean[]{false, false,false})
         );
         //---------------------------------------------------------
-        assertEquals("p.taula ocupacions:null",
+        assertEquals(
+                "taula d'ocupació: longitud diferent",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,400},
-                       null) //3
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,500}, 
+                    new boolean[]{false, false,false, false})//*
         );
-        assertEquals("p.taula ocupacions:buit",
+        assertEquals(
+                "taula d'ocupació: taula buida",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,400},
-                       new boolean[]{}) //3
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,500}, 
+                    new boolean[]{})//*
         );
-        assertEquals("p.taula ocupacions:longitud diferent",
+        assertEquals(
+                "taula d'ocupació: taula nul·la",
                 Parking.ERROR,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{0,0,0},
-                       new int[]{400,400,400},
-                       new boolean[]{false,false,false,false}) //4
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    new int[]{0, 0, 0}, 
+                    new int[]{500,500,500,500}, 
+                    null)//*
+        );
+        //-------------------------
+        assertEquals(
+                "taula d'ocupació: taula nul·la",
+                Parking.ERROR,
+                Parking.buscaLlocLliure(                
+                    0, 
+                    400, 
+                    null, 
+                    null, 
+                    null)//*
         );
     }
-
+    
     @Test
-    public void testBuscaLlocLliure_LLIURE() {
-        assertEquals(
-                "usuari no soci troba lloc",
-                4,
-                Parking.buscaLlocLliure(0, 300, 
-                       new int[]{    0,     12,  12,    0,    0,     0 }, 
-                       new int[]{    400,  400,  400,  300,   301,   600 }, 
-                       new boolean[]{true, true,false, false, false, false})
-        ); 
-        assertEquals(
-                "usuari soci troba lloc a la seva plaça",
-                7,
-                Parking.buscaLlocLliure(15, 300, 
-                       new int[]{    0,     12,  12,    0,    0,     15 , 15, 15}, 
-                       new int[]{    400,  400,  400,  300,   301,   300 , 301, 301}, 
-                       new boolean[]{true, true,false, false, false, false, true, false})
-        );  
+    public void testBuscaLlocLliure_LLOC_ASSIGNAT() {
                 assertEquals(
-                "usuari soci troba lloc a una plaça pública",
-                4,
-                Parking.buscaLlocLliure(15, 300, 
-                       new int[]{    0,     12,  12,    0,    0,     15 , 15}, 
-                       new int[]{    400,  400,  400,  300,   301,   300 , 301}, 
-                       new boolean[]{true, true,false, false, false, false, true})
-        ); 
+                "usuari no soci troba plaça",
+                7,
+                Parking.buscaLlocLliure(                
+                    0, //*
+                    400, 
+                    new int[]    {   15,  15,    15,    15, 0,    0,    0,          0, 0}, 
+                    new int[]    {  500, 500,    400,  400, 500,  400,  400,      401, 402}, 
+                    new boolean[]{false, true, false,  true, true, false, true, false, false})
+                );
+        assertEquals(
+                "usuari soci troba plaça a una plaça seva",
+                5,
+                Parking.buscaLlocLliure(                
+                    15, //*
+                    400, 
+                    new int[]    {   0,     12,   15,     15,    15,   15 }, 
+                    new int[]    { 500,    500,  500,   400,   400,   401 }, 
+                    new boolean[]{false, false, true,  false,  true, false})
+                );
+        
+        assertEquals(
+                "usuari soci troba plaça a una plaça pública, les seves estan plenes",
+                0,
+                Parking.buscaLlocLliure(                
+                    15, //*
+                    400, 
+                    new int[]    {   0,     12,   15,     15,    15 }, 
+                    new int[]    { 500,    500,  500,   400,   400 }, 
+                    new boolean[]{false, false, true,  false,  true})
+                );        
     }
+    
     
     @Test
     public void testBuscaLlocLliure_SENSE_LLOC() {
     }
-    
 
-    
+
+
 }
