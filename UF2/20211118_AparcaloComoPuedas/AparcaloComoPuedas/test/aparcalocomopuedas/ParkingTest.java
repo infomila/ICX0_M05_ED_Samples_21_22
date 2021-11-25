@@ -220,6 +220,30 @@ public class ParkingTest {
     
     @Test
     public void testBuscaLlocLliure_SENSE_LLOC() {
+                 assertEquals(
+                "usuari NO soci  NO troba plaça", 
+                Parking.NO_HI_HA_LLOC,
+                Parking.buscaLlocLliure(                
+                    0, //*
+                    400, 
+                    new int[]    {   0,     0,   15,     15,   0,      15,    15  }, 
+                    new int[]    { 500,    400,  500,   400,  400,    400,   500 }, 
+                    new boolean[]{true,   true, true,  true, false, false, false  })
+                ); 
+                 
+                assertEquals(
+                "usuari soci  NO troba plaça", 
+                Parking.NO_HI_HA_LLOC,
+                Parking.buscaLlocLliure(                
+                    12, //*
+                    400, 
+                    new int[]    {   0,     0,   15,     15,  12,  12,   0,      15,    15 , 16 }, 
+                    new int[]    { 500,    400,  500,   400, 500, 400,  400,    400,   500 , 400}, 
+                    new boolean[]{true,   true, true,  true,true, true, false, false, false, false })
+                ); 
+                 
+                 
+                 
     }
 
 
