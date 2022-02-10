@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ca"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Scrambler.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;UF2_Testing&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">net.iesmila.ED.UF2.capsa_blanca</a> &gt; <span class="el_source">Scrambler.java</span></div><h1>Scrambler.java</h1><pre class="source lang-java linenums">package net.iesmila.ED.UF2.capsa_blanca;
+
+/**
+ *
+ * @author Usuari
+ */
+<span class="fc" id="L7">public class Scrambler {</span>
+
+    public boolean test(String t) {
+
+<span class="pc bpc" id="L11" title="3 of 6 branches missed.">        if (t == null || t.length() == 0 || t.length() % 2 != 0) {</span>
+<span class="nc" id="L12">            return false;</span>
+        }
+
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        for (int i = 0; i &lt; t.length() / 2; i++) {</span>
+<span class="pc bpc" id="L16" title="1 of 2 branches missed.">            if (Character.toUpperCase(t.charAt(i)) !=  t.charAt(t.length() -1 - i) ) {</span>
+<span class="nc" id="L17">                return false;</span>
+            }
+        }
+<span class="fc" id="L20">        int count[] = new int[26 + 10];</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        for (int i = 0; i &lt; t.length(); i++) {</span>
+<span class="fc" id="L22">            char c = t.charAt(i);</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">            if (c &gt;= 'A' &amp;&amp; c &lt;= 'Z') {</span>
+<span class="fc" id="L24">                count[c - 'A']++;</span>
+<span class="fc bfc" id="L25" title="All 4 branches covered.">            } else if (c &gt;= '0' &amp;&amp; c &lt;= '9') {</span>
+<span class="fc" id="L26">                count[c - '0' + 'Z' - 'A' + 1]++;</span>
+            }
+        }
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        for (int i = 0; i &lt; count.length; i++) {</span>
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">            if (count[i] == 0) {</span>
+<span class="nc" id="L31">                return false;</span>
+            }
+        }
+<span class="fc" id="L34">        String[] ws = t.split(&quot; &quot;);</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (ws.length == 1) {</span>
+<span class="nc" id="L36">            return false;</span>
+        }
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        for (int p = 0; p &lt; ws.length; p++) {</span>
+<span class="fc" id="L39">            String w = ws[p];</span>
+<span class="fc" id="L40">            boolean hasNum=false, hasLett=false;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            for (int i = 0; i &lt; w.length(); i++) {</span>
+<span class="fc" id="L42">                char c = Character.toUpperCase(t.charAt(i));</span>
+<span class="pc bpc" id="L43" title="1 of 4 branches missed.">                if ( c &gt;= 'A' &amp;&amp; c &lt;= 'Z') {</span>
+<span class="fc" id="L44">                   hasLett=true;</span>
+<span class="pc bpc" id="L45" title="1 of 4 branches missed.">                } else if (c &gt;= '0' &amp;&amp; c &lt;= '9') {</span>
+<span class="fc" id="L46">                    hasNum=true;</span>
+                }
+            }
+<span class="pc bpc" id="L49" title="2 of 4 branches missed.">            if(!hasNum || !hasLett) return false;</span>
+        }
+
+<span class="fc" id="L52">        return true;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

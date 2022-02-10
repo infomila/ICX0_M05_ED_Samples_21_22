@@ -6,6 +6,11 @@ public class TheIncredibleMachine {
 
     private int stage = 0;
 
+    /**
+     * Funció diabólica que fa coses nazis
+     * @param data són els paràmetres que no sabem com fer servir
+     * @return res útil
+     */
     public int crunch( int [] data ) {
         int i=0;
         int stage0count=0;

@@ -6,49 +6,54 @@ package net.iesmila.ED.UF2.capsa_blanca;
 
 <span class="fc" id="L7">    private int stage = 0;</span>
 
+    /**
+     * Funci� diab�lica que fa coses nazis
+     * @param data s�n els par�metres que no sabem com fer servir
+     * @return res �til
+     */
     public int crunch( int [] data ) {
-<span class="fc" id="L10">        int i=0;</span>
-<span class="fc" id="L11">        int stage0count=0;</span>
-<span class="fc" id="L12">        int stage1stats[] = {0,0,0,0,0,0,0,0,0,0};</span>
-<span class="fc" id="L13">        int stage2magicnumber = 13;</span>
-<span class="fc bfc" id="L14" title="All 4 branches covered.">        while(stage&lt;3 &amp;&amp; i&lt;data.length) {</span>
-<span class="fc bfc" id="L15" title="All 4 branches covered.">            if(data[i]&gt;9 || data[i]&lt;0) {i++;continue;}</span>
-<span class="pc bpc" id="L16" title="1 of 4 branches missed.">            switch (stage){</span>
+<span class="fc" id="L15">        int i=0;</span>
+<span class="fc" id="L16">        int stage0count=0;</span>
+<span class="fc" id="L17">        int stage1stats[] = {0,0,0,0,0,0,0,0,0,0};</span>
+<span class="fc" id="L18">        int stage2magicnumber = 13;</span>
+<span class="fc bfc" id="L19" title="All 4 branches covered.">        while(stage&lt;3 &amp;&amp; i&lt;data.length) {</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">            if(data[i]&gt;9 || data[i]&lt;0) {i++;continue;}</span>
+<span class="pc bpc" id="L21" title="1 of 4 branches missed.">            switch (stage){</span>
                 case 0:
-<span class="fc bfc" id="L18" title="All 4 branches covered.">                    if(i&gt;0 &amp;&amp; data[i]==data[i-1]) {</span>
-<span class="fc" id="L19">                        stage0count++;</span>
+<span class="fc bfc" id="L23" title="All 4 branches covered.">                    if(i&gt;0 &amp;&amp; data[i]==data[i-1]) {</span>
+<span class="fc" id="L24">                        stage0count++;</span>
                     } else {
-<span class="fc" id="L21">                        stage0count=0;</span>
+<span class="fc" id="L26">                        stage0count=0;</span>
                     }
-<span class="fc bfc" id="L23" title="All 2 branches covered.">                    if(stage0count&gt;4) {</span>
-<span class="fc" id="L24">                        stage++;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">                    if(stage0count&gt;4) {</span>
+<span class="fc" id="L29">                        stage++;</span>
                     }
                     break;
                 case 1:
-<span class="fc" id="L28">                    stage1stats[data[i]]++;</span>
-<span class="fc" id="L29">                    int numGreaterThanThree = 0;</span>
-<span class="fc bfc" id="L30" title="All 2 branches covered.">                    for(int k=0;k&lt;stage1stats.length;k++) {</span>
-<span class="fc bfc" id="L31" title="All 2 branches covered.">                        if(stage1stats[k]&gt;3) numGreaterThanThree++;</span>
+<span class="fc" id="L33">                    stage1stats[data[i]]++;</span>
+<span class="fc" id="L34">                    int numGreaterThanThree = 0;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">                    for(int k=0;k&lt;stage1stats.length;k++) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">                        if(stage1stats[k]&gt;3) numGreaterThanThree++;</span>
                     }
-<span class="fc bfc" id="L33" title="All 2 branches covered.">                    if(numGreaterThanThree&gt;2){</span>
-<span class="fc" id="L34">                        stage++;</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                    if(numGreaterThanThree&gt;2){</span>
+<span class="fc" id="L39">                        stage++;</span>
                     }
                     break;
                 case 2:
-<span class="fc" id="L38">                    i += data[i];</span>
-<span class="fc" id="L39">                    stage2magicnumber -= data[i];</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">                    if(stage2magicnumber==0) {</span>
-<span class="fc" id="L41">                        stage++;</span>
+<span class="fc" id="L43">                    i += data[i];</span>
+<span class="fc" id="L44">                    stage2magicnumber -= data[i];</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">                    if(stage2magicnumber==0) {</span>
+<span class="fc" id="L46">                        stage++;</span>
                     }
                     break;
                 } // end switch
                 //
-<span class="fc" id="L46">                i++;</span>
+<span class="fc" id="L51">                i++;</span>
             } // end while
-<span class="fc bfc" id="L48" title="All 2 branches covered.">        if(stage==3) {</span>
-<span class="fc" id="L49">            System.out.print(&quot;Awesome dude !&quot;);</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if(stage==3) {</span>
+<span class="fc" id="L54">            System.out.print(&quot;Awesome dude !&quot;);</span>
         }
-<span class="fc" id="L51">        return stage;</span>
+<span class="fc" id="L56">        return stage;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

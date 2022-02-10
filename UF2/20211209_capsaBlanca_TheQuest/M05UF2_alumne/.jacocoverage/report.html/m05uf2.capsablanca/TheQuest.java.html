@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ca"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>TheQuest.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;M05UF2&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">m05uf2.capsablanca</a> &gt; <span class="el_source">TheQuest.java</span></div><h1>TheQuest.java</h1><pre class="source lang-java linenums">package m05uf2.capsablanca;
+
+import java.util.Hashtable;
+
+/**
+ *
+ * @author Usuari
+ */
+<span class="fc" id="L9">public class TheQuest {</span>
+
+    private static final String theChallenge = &quot;only the bests survive!&quot;;
+
+    public int startTheQuest(String yourChallenge, String yourCommands) {
+
+<span class="fc" id="L15">        System.out.println(&quot;- - - - - - - - - - - - \nWelcome to the quest!&quot;);</span>
+<span class="fc bfc" id="L16" title="All 4 branches covered.">        if (yourChallenge == null || yourChallenge.isEmpty()) {</span>
+<span class="fc" id="L17">            return -1;</span>
+        }
+
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        if (yourChallenge.trim().length() != yourChallenge.length()) {</span>
+<span class="fc" id="L21">            return -2;</span>
+        }
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (yourChallenge.replace(&quot; &quot;, &quot;&quot;).length() != yourChallenge.length()) {</span>
+<span class="fc" id="L24">            return -2;</span>
+        }
+<span class="fc bfc" id="L26" title="All 4 branches covered.">        if (yourCommands == null || yourCommands.length() == 0) {</span>
+<span class="fc" id="L27">            return -3;</span>
+        }
+
+<span class="fc" id="L30">        System.out.println(&quot;You passed the first trial.&quot;);</span>
+
+<span class="fc" id="L32">        boolean questFailure = false;</span>
+<span class="fc" id="L33">        boolean questAccomplished = false;</span>
+
+<span class="fc" id="L35">        String previousChallenge = null;</span>
+<span class="fc" id="L36">        int c = 0;</span>
+<span class="fc" id="L37">        boolean Y_already_used = false;</span>
+<span class="pc bpc" id="L38" title="1 of 6 branches missed.">        while (c &lt; yourCommands.length() &amp;&amp; !questFailure &amp;&amp; !questAccomplished ) {</span>
+
+<span class="fc" id="L40">            previousChallenge = yourChallenge;</span>
+            
+<span class="fc" id="L42">            char command = yourCommands.charAt(c);</span>
+        
+<span class="fc bfc" id="L44" title="All 5 branches covered.">            switch (command) {</span>
+                case 'X':
+<span class="fc bfc" id="L46" title="All 2 branches covered.">                    if(!yourChallenge.contains(&quot;k&quot;)){</span>
+<span class="fc" id="L47">                        questFailure = true;</span>
+                    } else {
+<span class="fc" id="L49">                        yourChallenge = yourChallenge.replaceFirst(&quot;k&quot;, &quot; &quot;);</span>
+                    }
+<span class="fc" id="L51">                    break;</span>
+                case 'Y':
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                    if (Y_already_used) {</span>
+<span class="fc" id="L54">                        questFailure = true;</span>
+                    } else {
+<span class="fc" id="L56">                        Y_already_used = true;</span>
+<span class="fc" id="L57">                        yourChallenge = yourChallenge.toLowerCase();</span>
+                    }
+<span class="fc" id="L59">                    break;</span>
+                case '-':
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                    if (c!=0) {</span>
+<span class="fc" id="L62">                        yourChallenge = previousChallenge;</span>
+                    } else {
+<span class="fc" id="L64">                        questFailure = true;</span>
+                    }
+<span class="fc" id="L66">                    break;</span>
+                case '7':
+<span class="fc bfc" id="L68" title="All 2 branches covered.">                    if ( !yourChallenge.contains(&quot;3&quot;)) {</span>
+<span class="fc" id="L69">                        questFailure = true;</span>
+                    } else {
+<span class="fc" id="L71">                        yourChallenge = yourChallenge.replace(&quot;3&quot;, &quot;E&quot;);</span>
+<span class="fc" id="L72">                        yourChallenge = yourChallenge.replace(&quot;4&quot;, &quot;A&quot;);</span>
+<span class="fc" id="L73">                        yourChallenge = yourChallenge.replace(&quot;1&quot;, &quot;I&quot;);</span>
+<span class="fc" id="L74">                        yourChallenge = yourChallenge.replace(&quot;0&quot;, &quot;O&quot;);</span>
+<span class="fc" id="L75">                        yourChallenge = yourChallenge.replace(&quot;|_|&quot;, &quot;U&quot;);</span>
+                    }
+<span class="fc" id="L77">                    break;</span>
+                default: {
+
+<span class="fc" id="L80">                    questFailure = true;</span>
+                    break;
+                }
+
+            }
+<span class="fc" id="L85">            System.out.println(&quot;**&gt;&quot;+yourChallenge);</span>
+<span class="fc" id="L86">            questAccomplished = yourChallenge.equals(theChallenge);</span>
+<span class="fc" id="L87">            c++;</span>
+<span class="fc" id="L88">        }</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">        if (questAccomplished) {</span>
+<span class="fc bfc" id="L90" title="All 6 branches covered.">            switch (yourCommands.length()) {</span>
+                case 3:
+<span class="fc" id="L92">                    System.out.println(&quot;(0) Not bad for a beginner&quot;);</span>
+<span class="fc" id="L93">                    break;</span>
+                case 4:
+<span class="fc" id="L95">                    System.out.println(&quot;(1) Improving your skills?&quot;);</span>
+<span class="fc" id="L96">                    break;</span>
+                case 5:
+<span class="fc" id="L98">                    System.out.println(&quot;(2) You are mastering the game...&quot;);</span>
+<span class="fc" id="L99">                    break;</span>
+                case 7:
+<span class="fc" id="L101">                    System.out.println(&quot;(3) You are really close to the end!&quot;);</span>
+<span class="fc" id="L102">                    break;</span>
+                case 9:    
+<span class="fc" id="L104">                    System.out.println(&quot;(4) Awesome challenger, you did it ! We admire your wisdom !&quot;);</span>
+<span class="fc" id="L105">                    break;</span>
+            }
+        } else {
+<span class="fc" id="L108">            System.out.println(&quot;Do not dispair, give it another try !&quot;);</span>
+        }
+
+<span class="fc" id="L111">        return 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
