@@ -36,6 +36,7 @@ public class CustomerTest extends TestCase {
 	public void testStatementForRegularMovie() {
 		Customer customer2 = new Customer("Sallie");
 		Movie movie1 = new Movie("Gone with the Wind", MovieType.REGULAR);
+                
                 //Movie movie1 = new MoviePriceTypeRegular("Gone with the Wind");
 		Rental rental1 = new Rental(movie1, 3); // 3 day rental
 		customer2.addRental(rental1);

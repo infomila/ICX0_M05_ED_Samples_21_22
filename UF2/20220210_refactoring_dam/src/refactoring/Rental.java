@@ -24,13 +24,13 @@ public class Rental {
 		return _movie;
 	}
 
-    double getAmount() {
+    public double getAmount() {
         
         return getMovie().getAmount(this.getDaysRented());
               
     }
 
-    int getRenterPoints() {
+    public int getRenterPoints() {
         // add frequent renter points
         int frequentRenterPoints= 1;
         // add bonus for a two day new release rental

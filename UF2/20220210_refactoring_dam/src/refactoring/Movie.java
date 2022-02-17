@@ -1,6 +1,12 @@
 package refactoring;
 
 // From book: 'Refactoring' by Martin Fowler
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 // This is the original code before refactoring begins
 public class Movie {
 
@@ -18,12 +24,21 @@ public class Movie {
         return _priceType.getType();
     }
 
-    public void setPriceCode(MovieType priceCode) {
-        switch(priceCode) {
+    public void setPriceCode(MovieType priceCode)  {
+        
+        try {
+            Class c = priceCode.getType();
+            Constructor constr = c.getConstructors()[0];
+            _priceType = (MoviePriceType) constr.newInstance();
+            
+            /*switch(priceCode) {
             case CHILDRENS: _priceType = new MoviePriceTypeChildren(); break;
             case NEW_RELEASE:  _priceType = new MoviePriceTypeNewRelease();break;
             case REGULAR:  _priceType = new MoviePriceTypeRegular();break;
-        }
+            }*/
+        } catch (Exception ex) {
+            Logger.getLogger(Movie.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     public String getTitle() {

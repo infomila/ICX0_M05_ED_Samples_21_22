@@ -33,12 +33,7 @@ public class Customer {
         Report r = Report.getReport(Report.TipusReport.TEXT);
         return r.getReport(this);        
     }
-    
-    
-    
-    
-    
-
+        
     public double getTotalAmount() {
         double totalAmount = 0;
         for (Rental rental : _rentals) {
@@ -46,6 +41,7 @@ public class Customer {
         }
         return totalAmount;
     }
+    
     public int getTotalRenterPoints() {
         int totalRenterPoints = 0;
         for (Rental rental : _rentals) {
