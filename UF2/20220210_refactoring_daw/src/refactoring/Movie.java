@@ -2,28 +2,35 @@ package refactoring;
 
 // From book: 'Refactoring' by Martin Fowler
 // This is the original code before refactoring begins
-public abstract class Movie {
+public class Movie {
 
     private String _title;
-    private MovieType _priceCode;
+    //private MovieType _priceCode;
+    private MovieTypePriceCalculator priceCalculator; 
 
     public Movie(String title, MovieType priceCode) {
         _title = title;
-        _priceCode = priceCode;
+        setPriceCode( priceCode );
     }
 
     public MovieType getPriceCode() {
-        return _priceCode;
+        return priceCalculator.getPriceCode();
     }
 
-    public void setPriceCode(MovieType arg) {
-        _priceCode = arg;
+    public void setPriceCode(MovieType priceCode) {
+        switch(priceCode) {
+            case REGULAR: priceCalculator = new MovieTypeRegular();break;
+            case CHILDRENS: priceCalculator = new MovieTypeChildren();break;
+            case NEW_RELEASE: priceCalculator = new MovieTypeNewRelease();break;
+        }
     }
 
     public String getTitle() {
         return _title;
     }
-    public abstract double getAmount(int daysRented);
+    public double getAmount(int daysRented){
+        return priceCalculator.getAmount(daysRented);
+    }
     
     /*
     double getAmount(int daysRented) {

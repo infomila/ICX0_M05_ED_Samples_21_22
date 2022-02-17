@@ -4,10 +4,10 @@ package refactoring;
  *
  * @author Usuari
  */
-public class MovieChildren extends Movie {
+public class MovieTypeChildren extends MovieTypePriceCalculator {
 
-    public MovieChildren(String title) {
-        super(title, MovieType.CHILDRENS);
+    public MovieTypeChildren() {
+        super(MovieType.CHILDRENS);
     }
 
     @Override
