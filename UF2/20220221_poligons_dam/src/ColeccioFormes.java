@@ -42,46 +42,42 @@ public class ColeccioFormes {
         int total = 0;
         //double areaQuadrats = 0, areaCercles = 0, areaTriangles = 0;
         double areaAcumulada = 0, midaCostat;
-        //double costatAcumulatQuadrats = 0, costatAcumulatCercles = 0, costatAcumulatTriangles = 0;
+        //double costatAcumulatQuadrats=0, costatAcumulatCercles=0, costatAcumulatTriangles=0;
 
-        int tipus, numFig = 1;
+        int numFig = 1;
         String informe = "";
         NumberFormat nf = DecimalFormat.getNumberInstance(new Locale("ca", "es"));
         nf.setMaximumFractionDigits(2);
-
-        //      ■  ⬤   ▸ 
-        //-----------------------
-        //    | 0 | 0 | 0 |
-        int numFormaXtipus[] = new int[TipusForma.values().length];
-        double areaFormaXtipus[] = new double[TipusForma.values().length];
-        double costatFormaXtipus[] = new double[TipusForma.values().length];
-        
         informe += "========================\n";
+        int numFiguresPerTipus[] = new int[TipusForma.values().length];
+        double areaFiguresPerTipus[] = new double[TipusForma.values().length];
+        double costatAcumulatPerTipus[] = new double[TipusForma.values().length];
         for (Forma f : formes) {
+
+            TipusForma tipus = f.getTipusForma();
             total++;
             numFig++;
             informe += "- Figura <" + numFig + ">: ";
+            informe += f.getNom();
+            informe += "\t costat - " + f.getMidaCostat() + " - area " + nf.format(f.getArea()) + "\n";
+            areaAcumulada += f.getArea();
+            //    Q C T
+            //   _______
+            //   |0|0|0|
             midaCostat = f.getMidaCostat();
             double area = f.getArea();
-            informe += f.getNom();
-            
-            int idx = f.getTipusForma().ordinal();
-            numFormaXtipus[idx]++;
-            areaFormaXtipus[idx]+=area;
-            costatFormaXtipus[idx]+= midaCostat;
-                         
-            informe += "\t costat - " + midaCostat + " - area " + nf.format(area) + "\n";
-            areaAcumulada += area;
+            numFiguresPerTipus[tipus.ordinal()]++;
+            areaFiguresPerTipus[tipus.ordinal()] += area;
+            costatAcumulatPerTipus[tipus.ordinal()] += midaCostat;
+
         } // end foreach forma
         // ---------------------- totalitzacions --------------------------
         informe += "========================\n";
         informe += "Total figures:" + total + ", area total:" + nf.format(areaAcumulada) + "\n";
-        informe += "========================\n";
-
+        informe += "========================\n";        
         for (int n = 0; n < TipusForma.values().length; n++) {
-            TipusForma tf = TipusForma.values()[n];
-            String plural = tf.getPlural();
-            informe += "Total "+plural+":" + numFormaXtipus[n] + ", area final:" + nf.format(areaFormaXtipus[n]) + ", costat mig:" + nf.format(costatFormaXtipus[n] / (float) numFormaXtipus[n]) + "\n";            
+            TipusForma tip = TipusForma.values()[n];            
+            informe += "Total "+tip.getPlural()+":" + numFiguresPerTipus[n] + ", area final:" + nf.format(areaFiguresPerTipus[n]) + ", costat mig:" + nf.format(costatAcumulatPerTipus[n] / (float) numFiguresPerTipus[n]) + "\n";                       
             informe += "========================\n";
         }//end for       
         return informe;
