@@ -4,26 +4,21 @@ package refactoring;
  *
  * @author bernat
  */
-public class Printer {
+public abstract class Printer {
 
-    public static final int HP_LASERJET_VII = 1;
-    public static final int HP_OFFICEJET_5 = 2;
-    public static final int RENTING_LASER_JET = 3;
-    
     private String inventoryId;
-    private int printerType;
+    private PrinterType printerType;
     private int numberOfColorCopies;
     private int numberOfBlackAndWhiteCopies;
 
-    public Printer(String inventoryId, int printerType, int numberOfColorCopies, int numberOfBlackAndWhiteCopies) {
+    public Printer(String inventoryId, PrinterType printerType, int numberOfColorCopies, int numberOfBlackAndWhiteCopies) {
         this.inventoryId = inventoryId;
         this.printerType = printerType;
         this.numberOfColorCopies = numberOfColorCopies;
         this.numberOfBlackAndWhiteCopies = numberOfBlackAndWhiteCopies;
-        
-        
-        if(this.numberOfColorCopies>0 && 
-                ( printerType==Printer.HP_LASERJET_VII || printerType == Printer.RENTING_LASER_JET )) {
+
+        if (this.numberOfColorCopies > 0
+                && (printerType == PrinterType.HP_LASERJET_VII || printerType == PrinterType.RENTING_LASER_JET)) {
             throw new RuntimeException("This printer does not support color.");
         }
     }
@@ -32,7 +27,7 @@ public class Printer {
         return inventoryId;
     }
 
-    public int getPrinterType() {
+    public PrinterType getPrinterType() {
         return printerType;
     }
 
@@ -43,6 +38,24 @@ public class Printer {
     public int getNumberOfBlackAndWhiteCopies() {
         return numberOfBlackAndWhiteCopies;
     }
-    
-    
+
+    public double getCost() {
+        double cost = getCostBase();
+        cost += getPreuCopiaBW() * getNumberOfBlackAndWhiteCopies();
+        if (suportaColor()) {
+            cost += getPreuCopiaColor() * getNumberOfColorCopies();
+        }
+        return cost;
+    }
+
+    public abstract double getCostBase();
+
+    public abstract double getPreuCopiaBW();
+
+    public abstract double getPreuCopiaColor();
+
+    public abstract String getNom();
+
+    public abstract boolean suportaColor();
+
 }
