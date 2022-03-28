@@ -13,7 +13,7 @@ public class Projecte {
     private int id;
     private String nom;
     private Empleat cap;
-    private List<Empleat> participants;
+    private List<Participacio> participants;
     private List<Tasca> tasques;
 
     public Projecte(int id, String nom) {
@@ -85,5 +85,62 @@ public class Projecte {
     public String getNom() {
         return nom;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + this.id;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if(obj instanceof Participacio) {
+            Participacio p = (Participacio)obj;
+            return p.getProjecte().equals(this);
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Projecte other = (Projecte) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+    
+    //---------------------------
+    // mètodes de la relació amb Empleat
+    public int getNumeroEmpleats(){
+        return participants.size();
+    }
+    
+    public Empleat getEmpleat(int index) {
+        return participants.get(index).getEmpleat();
+    }
+
+    void addEmpleat(Empleat nouEmpleat, String rol) {
+        if(participants.contains(nouEmpleat)) return;
+        
+        Participacio p = new Participacio(rol, nouEmpleat, this);
+        participants.add(p);
+        nouEmpleat.addProjecte(p);
+    }
+    
+    void addEmpleat(Participacio p) {
+
+    }
+
+    void removeEmpleat(Empleat aThis) {
+
+    }
+    
+    
 
 }

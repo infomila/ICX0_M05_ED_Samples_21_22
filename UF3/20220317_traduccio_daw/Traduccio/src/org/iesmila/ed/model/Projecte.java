@@ -79,4 +79,36 @@ public class Projecte {
         }
         return tascaAEsborrar;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + this.numero;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if(obj instanceof Participacio) {
+            Participacio p = (Participacio)obj;
+            return p.getProjecte().equals(this);
+        }
+        
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Projecte other = (Projecte) obj;
+        if (this.numero != other.numero) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

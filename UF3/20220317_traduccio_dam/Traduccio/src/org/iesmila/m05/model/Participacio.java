@@ -6,12 +6,27 @@ package org.iesmila.m05.model;
  */
 public class Participacio {
 
-	private double salari;
-	private String desc;
+    private String rol;
+    private Empleat empleat;
+    private Projecte projecte;
 
-	public Participacio(){
+    public Participacio(String rol, Empleat empleat, Projecte projecte) {
+        this.rol = rol;
+        this.empleat = empleat;
+        this.projecte = projecte;
+    }
 
-	}
+    public String getRol() {
+        return rol;
+    }
 
+    public Empleat getEmpleat() {
+        return empleat;
+    }
 
+    public Projecte getProjecte() {
+        return projecte;
+    }
+
+    
 }
