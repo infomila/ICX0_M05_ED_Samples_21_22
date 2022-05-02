@@ -5,6 +5,7 @@
  */
 package org.iesmila.ed.model;
 
+import java.util.Date;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -53,52 +54,52 @@ public class ProjecteTest {
         assertNull( t1.getProjecte());
                 
         
+    }
+     
+    @Test
+    public void testParticipants() {
         
+        Projecte p1 = new Projecte(1, "P1");
+        Projecte p2 = new Projecte(2, "P2");
+        
+        Empleat Maria = new Empleat(30, "Maria", "Gómez", new Date(), "11111111H", null);
+        Empleat Paco = new Empleat(40, "Paco", "Sorna", new Date(), "22222222H", null);
+        
+        p1.addParticipant(Maria, "Analista");
+        assertEquals( 1, p1.getNumParticipants());
+        assertEquals( 1, Maria.getNumProjectes());
+        assertEquals( Maria , p1.getParticipant(0));
+        assertEquals(  p1 , Maria.getProjecte(0));
+        assertEquals( "Analista", p1.getParticipacio(0).getRol());
+        assertEquals( p1, p1.getParticipacio(0).getProjecte());
+        assertEquals( Maria, p1.getParticipacio(0).getEmpleat());
+        //-------------------------------------------------------------
+        assertEquals( Maria.getParticipacio(0), p1.getParticipacio(0)); 
+        p2.addParticipant(Maria, "Programador");
+        assertEquals( 1, p1.getNumParticipants());
+        assertEquals( 2, Maria.getNumProjectes());
+        assertEquals( Maria , p1.getParticipant(0));
+        assertEquals(  p1 , Maria.getProjecte(0));
+        assertEquals( 1, p2.getNumParticipants());
+        assertEquals( Maria , p2.getParticipant(0));
+        assertEquals(  p2 , Maria.getProjecte(1));
+        //--------------------------------------------------------------
+        p1.removeParticipant(Maria);
+        assertEquals( 0, p1.getNumParticipants());
+        assertEquals( 1, Maria.getNumProjectes());
+        try{
+            assertEquals( Maria , p1.getParticipant(0));
+            fail("No hauria de funcionar !!!");
+        } catch(Exception ex){}
+        
+        assertEquals(  p2 , Maria.getProjecte(0));
+        assertEquals( 1, p2.getNumParticipants());
+        assertEquals( Maria , p2.getParticipant(0));
+        //--------------------------------------------------------------
+ 
         
     }
-    
-    @Test
-    public void testSetCap() {
-    }
 
-    @Test
-    public void testGetNumero() {
-    }
-
-    @Test
-    public void testSetNumero() {
-    }
-
-    @Test
-    public void testGetNom() {
-    }
-
-    @Test
-    public void testSetNom() {
-    }
-
-    @Test
-    public void testGetCap() {
-    }
-
-    @Test
-    public void testGetNumeroTasques() {
-    }
-
-    @Test
-    public void testGetTasca() {
-    }
-
-    @Test
-    public void testGetTasques() {
-    }
-
-    @Test
-    public void testAddTasca() {
-    }
-
-    @Test
-    public void testRemoveTasca() {
-    }
+ 
     
 }

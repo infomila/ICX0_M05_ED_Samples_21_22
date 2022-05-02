@@ -20,6 +20,7 @@ public class Projecte {
         this.id = id;
         this.nom = nom;
         tasques = new ArrayList<Tasca>();
+        participants = new ArrayList<Participacio>();
     }
 
     public Empleat getCap() {
@@ -125,8 +126,12 @@ public class Projecte {
         return participants.get(index).getEmpleat();
     }
 
-    void addEmpleat(Empleat nouEmpleat, String rol) {
+    public void addEmpleat(Empleat nouEmpleat, String rol) {
         if(participants.contains(nouEmpleat)) return;
+        
+        if(nouEmpleat==null) {throw new RuntimeException("Empleat null!!!");}
+        if(rol==null || rol.length()<2) {throw new RuntimeException("Rol null o buit!!!");}
+        
         
         Participacio p = new Participacio(rol, nouEmpleat, this);
         participants.add(p);
@@ -134,11 +139,15 @@ public class Projecte {
     }
     
     void addEmpleat(Participacio p) {
-
+            participants.add(p);
     }
 
-    void removeEmpleat(Empleat aThis) {
-
+    public Empleat removeEmpleat(Empleat empleat) {
+        if(participants.remove(empleat)) {
+            empleat.removeProjecte(this);    
+            return empleat;
+        }       
+        return null;
     }
     
     

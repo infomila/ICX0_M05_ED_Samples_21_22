@@ -13,7 +13,7 @@ public class Projecte {
 
     private int numero;
     private String nom;
-    private List<Empleat> participants;
+    private List<Participacio> participants;
     private Empleat cap_de_projecte;
     private List<Tasca> tasques;
 
@@ -21,6 +21,7 @@ public class Projecte {
         this.numero = numero;
         this.nom = nom;
         tasques = new ArrayList<Tasca>();
+        participants = new ArrayList<Participacio>();
     }
 
     public void setCap(Empleat nouCap) {
@@ -62,7 +63,7 @@ public class Projecte {
     }
 
     public void addTasca(Tasca nova) {
-        if(!tasques.contains(nova)) {
+        if (!tasques.contains(nova)) {
             tasques.add(nova);
             nova.setProjecte(this);
         }
@@ -71,10 +72,10 @@ public class Projecte {
     public Tasca removeTasca(int index) {
         return tasques.remove(index);
     }
-    
+
     public Tasca removeTasca(Tasca tascaAEsborrar) {
-         if(tasques.contains(tascaAEsborrar)){
-             tasques.remove(tascaAEsborrar);
+        if (tasques.contains(tascaAEsborrar)) {
+            tasques.remove(tascaAEsborrar);
             tascaAEsborrar.setProjecte(null);
         }
         return tascaAEsborrar;
@@ -95,11 +96,11 @@ public class Projecte {
         if (obj == null) {
             return false;
         }
-        if(obj instanceof Participacio) {
-            Participacio p = (Participacio)obj;
+        if (obj instanceof Participacio) {
+            Participacio p = (Participacio) obj;
             return p.getProjecte().equals(this);
         }
-        
+
         if (getClass() != obj.getClass()) {
             return false;
         }
@@ -109,6 +110,42 @@ public class Projecte {
         }
         return true;
     }
+
+    //------------------------------------------
+    // participants
+    public int getNumParticipants() {
+        return this.participants.size();
+    }
+
+    public Empleat getParticipant(int index) {
+        return this.participants.get(index).getEmpleat();
+    }
+
+    public Participacio getParticipacio(int index){
+            return this.participants.get(index);
+    }
     
     
+    void addParticipant(Participacio p) {
+        this.participants.add(p);
+    }
+
+    void addParticipant(Empleat nouEmpleat, String rol) {
+
+        if (!participants.contains(nouEmpleat)) {
+            Participacio p = new Participacio(nouEmpleat, this, rol);
+            this.participants.add(p);
+            nouEmpleat.addProjecte(p);
+        }
+    }
+
+    public Empleat removeParticipant(Empleat e) {
+
+        if (participants.remove(e)) {
+            e.removeProjecte(this);
+            return e;
+        }
+        return null;
+    }
+
 }

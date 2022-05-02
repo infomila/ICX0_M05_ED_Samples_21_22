@@ -1,5 +1,6 @@
 package org.iesmila.ed.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -15,11 +16,12 @@ public class Empleat extends Persona {
 	public Empleat cap;
 
         public Empleat(int id, String nom, String cognom, Date dataNaix, String NIF, AdrecaPostal adreca) {
-            super(id,  nom,  cognom,  dataNaix,  NIF,  adreca);
+            this(id,  nom,  cognom,  dataNaix,  NIF,  adreca, null);
         }
         public Empleat(int id, String nom, String cognom, Date dataNaix, String NIF, AdrecaPostal adreca, Empleat cap) {
             super(id,  nom,  cognom,  dataNaix,  NIF,  adreca);
             this.cap = cap;
+            projectesOnParticipo = new ArrayList<Participacio>();
         }
 
 	public Empleat getCap(){
@@ -35,7 +37,7 @@ public class Empleat extends Persona {
 	}
 
 	public int getNumProjectes(){
-		return 0;
+		return projectesOnParticipo.size();
 	}
 
 	/**
@@ -45,7 +47,10 @@ public class Empleat extends Persona {
 	public Projecte getProjecte(int index){
 		return this.projectesOnParticipo.get(index).getProjecte();
 	}
-
+	 
+	public Participacio getParticipacio(int index){
+		return this.projectesOnParticipo.get(index);
+	}
 	/**
 	 * 
 	 * @param nou
@@ -71,7 +76,43 @@ public class Empleat extends Persona {
             
             if(projectesOnParticipo.remove(p)) {        
                 p.removeParticipant(this);
-            }              
+                return p;
+            }       
+            return null;
 	}
+
+    void addProjecte(Participacio p) {
+        this.projectesOnParticipo.add(p);
+    }
+    
+        @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + this.getId();
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+
+        if(obj instanceof Participacio) {
+            Participacio p = (Participacio)obj;
+            return this.equals(p.getEmpleat());
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Persona other = (Persona) obj;
+        if (this.getId() != other.getId()) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -13,12 +13,12 @@ public class Empleat extends Persona {
 
     private int numEmpleat;
     private Empleat cap;
-    private List<Participacio> projectes;
+    private List<Participacio> participProjectes;
 
     public Empleat(int id, int numEmpleat, String nom, String cognom1, String cognom2, String NIF, Date dataNaix, String telefon, Adreca adreca) {
         super(id, nom, cognom1, cognom2, NIF, dataNaix, telefon, adreca);
         this.numEmpleat = numEmpleat;
-        projectes = new ArrayList<>();
+        participProjectes = new ArrayList<>();
     }
 
     public Empleat getCap() {
@@ -34,7 +34,7 @@ public class Empleat extends Persona {
     }
 
     public int getNumProjectes() {
-        return projectes.size();
+        return participProjectes.size();
     }
 
     /**
@@ -42,12 +42,17 @@ public class Empleat extends Persona {
      * @param index
      */
     public Projecte getProjecte(int index) {
-        return projectes.get(index).getProjecte();
+        return participProjectes.get(index).getProjecte();
     }
+    
+    public Participacio getParticipacioProjecte(int index){
+        return participProjectes.get(index);
+    }
+    
 
     public List<Projecte> getProjectes() {
         List<Projecte> list = new ArrayList<>();
-        for(Participacio p:projectes){
+        for(Participacio p:participProjectes){
             list.add(p.getProjecte());
         }
         return list;
@@ -73,17 +78,23 @@ public class Empleat extends Persona {
             return;
         */
         //---------------------------------
-        if(projectes.contains(nouProjecte)) return;
+        if(participProjectes.contains(nouProjecte)) return;
         
+        
+        if(nouProjecte==null) {throw new RuntimeException("Projecte null!!!");}
+        if(rol==null || rol.length()<2) {throw new RuntimeException("Rol null o buit!!!");}
+        
+    
         Participacio p = new Participacio(rol, this, nouProjecte);
-        projectes.add(p);
+        participProjectes.add(p);
         nouProjecte.addEmpleat(p);
+
     }
     
     
      void addProjecte(Participacio p) {
-        if(projectes.contains(p)) return;
-        projectes.add(p);
+        if(participProjectes.contains(p)) return;
+        participProjectes.add(p);
      }
 
     
@@ -93,11 +104,49 @@ public class Empleat extends Persona {
      */
     public Projecte removeProjecte(Projecte projDelete) {
         
-        if(projectes.remove(projDelete)) {
-            projDelete.removeEmpleat(this);            
-        }        
+        if(participProjectes.remove(projDelete)) {
+            projDelete.removeEmpleat(this);    
+            return projDelete;
+        }       
+        return null;
+        
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + this.numEmpleat;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if(obj instanceof Participacio) {
+            Participacio p = (Participacio) obj;
+            return this.equals(p.getEmpleat());
+        }
+        
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Empleat other = (Empleat) obj;
+        if (this.numEmpleat != other.numEmpleat) {
+            return false;
+        }
+        return true;
     }
 
 
+
+
+    
+    
+    
 
 }

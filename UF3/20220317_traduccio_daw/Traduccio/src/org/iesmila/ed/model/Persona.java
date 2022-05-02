@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author Usuari
  * @version 1.0
- * @created 17-març-2022 17:26:08
+ * @created 17-marï¿½-2022 17:26:08
  */
 public class Persona {
 
@@ -78,5 +78,9 @@ public class Persona {
     public void setNIF(String NIF) {
         this.NIF = NIF;
     }
+
+
+    
+    
 
 }
